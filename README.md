@@ -1,1 +1,3 @@
-# OptimizeWP
+# Mai Optimizer
+
+

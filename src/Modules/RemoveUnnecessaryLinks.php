@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class RemoveUnnecessaryLinks
  *
  * @package \OptimizeWP\Modules
  */
-class RemoveUnnecessaryLinks extends Module {
+class RemoveUnnecessaryLinks extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

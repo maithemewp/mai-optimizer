@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class NiceSearch
  *
  * @package \OptimizeWP\Modules
  */
-class NiceSearch extends Module {
+class NiceSearch extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

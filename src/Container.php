@@ -1,6 +1,6 @@
 <?php
 
-namespace OptimizeWP;
+namespace MaiOptimizer;
 
 class Container {
 	public $services = [];
@@ -24,14 +24,18 @@ class Container {
 			$params = $class->getConstructor()->getParameters();
 
 			foreach ( $params as $param ) {
-				$name = $param->getClass()->name;
+				$class = $param->getClass();
 
-				if ( class_exists( $name ) ) {
-					if ( ! isset( $this->services[ $name ] ) ) {
-						$this->add( $name );
+				if ( ! \is_object( $class ) || ! \property_exists( $class, 'name' ) ) {
+					continue;
+				}
+
+				if ( \class_exists( $class->name ) ) {
+					if ( ! isset( $this->services[ $class->name ] ) ) {
+						$this->add( $class->name );
 					}
 
-					$args[] = $this->services[ $name ];
+					$args[] = $this->services[ $class->name ];
 				}
 			}
 		}
@@ -41,5 +45,7 @@ class Container {
 		if ( \method_exists( $this->services[ $service ], 'call' ) ) {
 			$this->services[ $service ]->call();
 		}
+
+		return $this->services[ $service ];
 	}
 }

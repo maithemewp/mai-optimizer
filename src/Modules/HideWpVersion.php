@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class RemoveGenerators
  *
  * @package \OptimizeWP\Modules
  */
-class HideWpVersion extends Module {
+class HideWpVersion extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

@@ -1,12 +1,12 @@
 {
-  "name": "optimizewp/optimizewp",
-  "description": "Optimize WordPress",
+  "name": "maithemewp/mai-optimizer",
+  "description": "WordPress optimization plugin for sites running Mai Engine.",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
-      "name": "optimizewp",
-      "email": "info@optimizewp.com"
+      "name": "BizBudding",
+      "email": "info@maithemewp.com"
     }
   ],
   "require-dev": {
@@ -22,12 +22,12 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "OptimizeWP\\": "src/"
+      "MaiOptimizer\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "OptimizeWP\\Tests\\Unit\\": "tests/php/unit/"
+      "MaiOptimizer\\Tests\\Unit\\": "tests/php/unit/"
     }
   },
   "scripts": {
@@ -35,5 +35,8 @@
     "phpcbf": "phpcbf --standard=WordPress --extensions=php -p src",
     "test-unit": "vendor/bin/phpunit --testsuite unit --color=always",
     "test-integration": "vendor/bin/phpunit --testsuite integration --color=always"
+  },
+  "require": {
+    "tedivm/jshrink": "dev-master"
   }
 }

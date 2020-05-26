@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class CleanLinkTags
  *
  * @package \OptimizeWP\Modules
  */
-class CleanLinkTags extends Module {
+class CleanLinkTags extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

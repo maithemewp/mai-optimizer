@@ -1,160 +1,33 @@
 <?php
 
-namespace OptimizeWP;
+namespace MaiOptimizer;
 
-class Admin implements ServiceInterface {
+class Admin {
+	private $plugin;
+	private $modules;
 
-	public function __construct(Plugin $plugin) {
-		$this->plugin = $plugin;
-		add_action( 'admin_init', [ $this, 'admin_init_settings' ] );
-		add_action( 'admin_menu', [ $this, 'admin_menu_settings' ] );
+	public function __construct( Plugin $plugin, Modules $modules ) {
+		$this->plugin  = $plugin;
+		$this->modules = $modules;
 	}
 
-	public function call() {
+	public function add_hooks() {
+		\add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		\add_action( 'admin_menu', [ $this, 'admin_menu_settings' ] );
+		\add_action( 'admin_post_mai_optimizer', [ $this, 'form_submit' ] );
+		\add_action( 'admin_bar_menu', [ $this, 'add_toolbar_items' ], 999 );
+		\add_action( 'admin_post_mai_optimizer_toolbar', [ $this, 'handle_toolbar' ] );
 
 	}
 
-	/**
-	 * Description of expected behavior.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	function admin_init_settings() {
-
-		$sections = [
-			[
-				'id'    => 'options',
-				'title' => __( 'Options', 'optimizewp' ),
-			],
-			[
-				'id'    => 'license',
-				'title' => __( 'License', 'optimizewp' ),
-			],
-			[
-				'id'    => 'addons',
-				'title' => __( 'Addons', 'optimizewp' ),
-			],
-			[
-				'id'    => 'support',
-				'title' => __( 'Support', 'optimizewp' ),
-			],
-		];
-
-		$fields = [
-			'options' => [
-				[
-					'name'    => 'text',
-					'label'   => __( 'Text Input', 'optimizewp' ),
-					'desc'    => __( 'Text input description', 'optimizewp' ),
-					'type'    => 'text',
-					'default' => 'Title',
-				],
-				[
-					'name'  => 'textarea',
-					'label' => __( 'Textarea Input', 'optimizewp' ),
-					'desc'  => __( 'Textarea description', 'optimizewp' ),
-					'type'  => 'textarea',
-				],
-				[
-					'name'  => 'checkbox',
-					'label' => __( 'Checkbox', 'optimizewp' ),
-					'desc'  => __( 'Checkbox Label', 'optimizewp' ),
-					'type'  => 'checkbox',
-				],
-				[
-					'name'    => 'radio',
-					'label'   => __( 'Radio Button', 'optimizewp' ),
-					'desc'    => __( 'A radio button', 'optimizewp' ),
-					'type'    => 'radio',
-					'options' => [
-						'yes' => 'Yes',
-						'no'  => 'No',
-					],
-				],
-				[
-					'name'    => 'multicheck',
-					'label'   => __( 'Multile checkbox', 'optimizewp' ),
-					'desc'    => __( 'Multi checkbox description', 'optimizewp' ),
-					'type'    => 'multicheck',
-					'options' => [
-						'one'   => 'One',
-						'two'   => 'Two',
-						'three' => 'Three',
-						'four'  => 'Four',
-					],
-				],
-				[
-					'name'    => 'selectbox',
-					'label'   => __( 'A Dropdown', 'optimizewp' ),
-					'desc'    => __( 'Dropdown description', 'optimizewp' ),
-					'type'    => 'select',
-					'default' => 'no',
-					'options' => [
-						'yes' => 'Yes',
-						'no'  => 'No',
-					],
-				],
-				[
-					'name'    => 'password',
-					'label'   => __( 'Password', 'optimizewp' ),
-					'desc'    => __( 'Password description', 'optimizewp' ),
-					'type'    => 'password',
-					'default' => '',
-				],
-				[
-					'name'    => 'file',
-					'label'   => __( 'File', 'optimizewp' ),
-					'desc'    => __( 'File description', 'optimizewp' ),
-					'type'    => 'file',
-					'default' => '',
-				],
-				[
-					'name'    => 'color',
-					'label'   => __( 'Color', 'optimizewp' ),
-					'desc'    => __( 'Color description', 'optimizewp' ),
-					'type'    => 'color',
-					'default' => '',
-				],
-			],
-			'license' => [
-				[
-					'name'    => 'text',
-					'label'   => __( 'Text Input', 'optimizewp' ),
-					'desc'    => __( 'Text input description', 'optimizewp' ),
-					'type'    => 'text',
-					'default' => 'Title',
-				],
-			],
-			'addons'  => [
-				[
-					'name'    => 'text',
-					'label'   => __( 'Text Input', 'optimizewp' ),
-					'desc'    => __( 'Text input description', 'optimizewp' ),
-					'type'    => 'text',
-					'default' => 'Title',
-				],
-			],
-			'support' => [
-				[
-					'name'    => 'text',
-					'label'   => __( 'Text Input', 'optimizewp' ),
-					'desc'    => __( 'Text input description', 'optimizewp' ),
-					'type'    => 'text',
-					'default' => 'Title',
-				],
-			],
-		];
-
-		$settings_api = \WeDevs_Settings_API::getInstance();
-
-		//set sections and fields
-		$settings_api->set_sections( $sections );
-		$settings_api->set_fields( $fields );
-
-		//initialize them
-		$settings_api->admin_init();
+	public function enqueue_scripts() {
+		\wp_enqueue_script(
+			$this->plugin->slug,
+			$this->plugin->url . 'resources/js/admin.js',
+			[ 'jquery' ],
+			$this->plugin->version,
+			true
+		);
 	}
 
 	/**
@@ -164,12 +37,13 @@ class Admin implements ServiceInterface {
 	 *
 	 * @return void
 	 */
-	function admin_menu_settings() {
-		\add_options_page(
-			'OptimizeWP',
-			'OptimizeWP',
+	public function admin_menu_settings() {
+		\add_submenu_page(
+			'mai-theme',
+			'Mai Optimizer',
+			'Optimizations',
 			'manage_options',
-			'optimizewp',
+			'mai-optimizer',
 			[ $this, 'settings_page' ]
 		);
 	}
@@ -181,15 +55,116 @@ class Admin implements ServiceInterface {
 	 *
 	 * @return void
 	 */
-	function settings_page() {
-		$settings_api = \WeDevs_Settings_API::getInstance();
+	public function settings_page() {
+		$options     = \get_option( $this->plugin->slug, [] );
+		$default_tab = null;
+		$tab         = isset( $_GET['tab'] ) ? $_GET['tab'] : $default_tab;
+		?>
+		<div class="wrap">
+		<h1><?php echo $this->plugin->name; ?></h1>
+		<br>
+		<nav class="nav-tab-wrapper">
+			<a href="?page=mai-optimizer" class="nav-tab <?php if ( $tab === null ) : ?>nav-tab-active<?php endif; ?> ">General</a>
+			<a href=" ?page=mai-optimizer&tab=settings" class="nav-tab <?php if ( $tab === 'settings' ): ?>nav-tab-active<?php endif; ?>">WooCommerce</a>
+			<a href=" ?page=mai-optimizer&tab=tools" class="nav-tab <?php if ( $tab === 'tools' ): ?>nav-tab-active<?php endif; ?>">Tools</a>
+		</nav>
+		<br>
+		<div class="tab-content">
+			<?php switch ( $tab ) :
+				case 'settings':
+					echo 'Settings';
+					break;
+				case 'tools':
+					echo 'Tools';
+					break;
+				default:
+					?>
+					<p>
+						<a href=" javascript:void(0)" class="mai-optimizer-toggle button button-secondary button-small">
+							<?php esc_attr_e( 'Toggle All', 'mai-optimizer' ) ?>
+						</a>
+					</p>
+					<form action="<?php esc_attr_e( admin_url( 'admin-post.php' ) ); ?>" method="post" class="mai-optimizer-form">
+						<?php foreach ( $this->modules->get_module_names() as $module ) : ?>
+							<?php $id = $module; ?>
+							<?php $name = Helpers::convert_case( $module, 'title' ); ?>
+							<?php $checked = isset( $options[ $module ] ) && \sanitize_text_field( $options[ $module ] ); ?>
+							<label for="<?php esc_attr_e( $id ); ?>">
+								<input type="checkbox" id="<?php esc_attr_e( $id ); ?>" name="<?php esc_attr_e( $this->plugin->slug ); ?>[<?php esc_attr_e( $id ); ?>]" <?php echo $checked ? 'checked' : ''; ?>>
+								<?php esc_html_e( $name ); ?>
+							</label>
+							<br>
+						<?php endforeach; ?>
+						<br>
+						<input type="hidden" name="action" value="mai_optimizer">
+						<input type="submit" class="button button-primary button-hero" value="<?php esc_attr_e( 'Save Changes', 'mai-optimizer' ); ?>">
+					</form>
+					<?php
+					break;
+			endswitch; ?>
+			</nav>
+		</div>
+		<?php
+	}
 
-		echo '<div class="wrap">';
-		echo '<h2>OptimizeWP Settings</h2>';
+	public function form_submit() {
+		$settings = isset( $_REQUEST[ $this->plugin->slug ] ) ? $_REQUEST[ $this->plugin->slug ] : [];
+		$modules  = $this->modules->get_module_names();
 
-		$settings_api->show_navigation();
-		$settings_api->show_forms();
+		foreach ( $modules as $module ) {
+			if ( isset( $settings[ $module ] ) && 'on' === \sanitize_text_field( $settings[ $module ] ) ) {
+				$modules[ $module ] = true;
+			} else {
+				$modules[ $module ] = false;
+			}
+		}
 
-		echo '</div>';
+		\update_option( $this->plugin->slug, $modules );
+
+		$this->clear_cache( 'admin.php?page=mai-optimizer' );
+	}
+
+	/**
+	 * Description of expected behavior.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param \WP_Admin_Bar $admin_bar
+	 *
+	 * @return void
+	 */
+	public function add_toolbar_items( $admin_bar ) {
+		$current = \esc_url( $_SERVER['REQUEST_URI'] );
+
+		$admin_bar->add_menu( [
+			'id'    => $this->plugin->slug,
+			'title' => $this->plugin->name,
+			'href'  => \admin_url( 'admin.php?page=mai-optimizer' ),
+			'meta'  => [
+				'title' => __( $this->plugin->name ),
+			],
+		] );
+
+		$admin_bar->add_menu( [
+			'id'     => $this->plugin->slug . '-clear-cache',
+			'parent' => $this->plugin->slug,
+			'title'  => __( 'Clear Cache', 'mai-optimizer' ),
+			'href'   => admin_url( 'admin-post.php?action=mai_optimizer_toolbar&current=' . $current ),
+			'meta'   => [
+				'title' => __( 'Clear Cache', 'mai-optimizer' ),
+				'class' => $this->plugin->slug . '-clear-cache',
+			],
+		] );
+	}
+
+	public function handle_toolbar() {
+		$redirect_url = isset( $_REQUEST['current'] ) ? str_replace( '/wp-admin/', '', $_REQUEST['current'] ) : '';
+
+		$this->clear_cache( $redirect_url );
+	}
+
+	private function clear_cache( $redirect_url = '' ) {
+		\update_option( $this->plugin->slug . '-cache', false );
+		\wp_safe_redirect( \admin_url( $redirect_url ) );
 	}
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace OptimizeWP;
+namespace MaiOptimizer;
 
-class Plugin implements ServiceInterface {
+class Plugin {
 	public $file;
 	public $base;
 	public $slug;
@@ -50,7 +50,7 @@ class Plugin implements ServiceInterface {
 		}
 	}
 
-	public function call() {
+	public function add_hooks() {
 		\register_activation_hook( $this->file, function () {
 			$this->activate();
 		} );
@@ -58,17 +58,21 @@ class Plugin implements ServiceInterface {
 		\register_deactivation_hook( $this->file, function () {
 			$this->deactivate();
 		} );
+
+		\add_action( 'plugins_loaded', function () {
+			$this->textdomain();
+		} );
 	}
 
-	public function add_textdomain() {
+	private function textdomain() {
 		\load_plugin_textdomain( $this->text_domain, 0, $this->domain_path );
 	}
 
-	public function activate() {
+	private function activate() {
 		\flush_rewrite_rules();
 	}
 
-	public function deactivate() {
+	private function deactivate() {
 		\flush_rewrite_rules();
 	}
 }

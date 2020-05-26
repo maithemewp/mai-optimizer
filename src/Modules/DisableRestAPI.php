@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class DisableRestAPI
  *
  * @package \OptimizeWP\Modules
  */
-class DisableRestAPI extends Module {
+class DisableRestAPI extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

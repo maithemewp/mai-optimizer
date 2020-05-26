@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class DisableDashicons
  *
  * @package \OptimizeWP\Modules
  */
-class DisableDashicons extends Module {
+class DisableDashicons extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

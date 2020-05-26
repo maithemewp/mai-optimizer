@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class DisableAssetVersioning
  *
  * @package \OptimizeWP\Modules
  */
-class RemoveQueryStrings extends Module {
+class RemoveQueryStrings extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

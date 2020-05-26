@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class DisableRssFeeds
  *
  * @package \OptimizeWP\Modules
  */
-class DisableRssFeeds extends Module {
+class DisableRssFeeds extends AbstractModule {
 
 	public function hooks() {
 		\remove_action( 'wp_head', 'feed_links', 2 );

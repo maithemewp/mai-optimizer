@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class LimitPostRevisions
  *
  * @package \OptimizeWP\Modules
  */
-class LimitPostRevisions extends Module {
+class LimitPostRevisions extends AbstractModule {
 
 	public function hooks() {
 		\add_action( 'init', [ $this, 'limit_post_revisions' ] );

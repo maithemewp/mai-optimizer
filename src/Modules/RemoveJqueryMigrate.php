@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class RemoveJqueryMigrate
  *
  * @package \OptimizeWP\Modules
  */
-class RemoveJqueryMigrate extends Module {
+class RemoveJqueryMigrate extends AbstractModule {
 
 	public function hooks() {
 		\add_action( 'wp_default_scripts', [ $this, 'remove_jquery_migrate' ] );

@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class LimitHeartbeat
  *
  * @package \OptimizeWP\Modules
  */
-class LimitHeartbeat extends Module {
+class LimitHeartbeat extends AbstractModule {
 
 	public function hooks() {
 		\add_action( 'init', [ $this, 'limit_heartbeat' ] );
@@ -15,7 +15,7 @@ class LimitHeartbeat extends Module {
 
 	public function limit_heartbeat() {
 		global $pagenow;
-		if ( $pagenow != 'post.php' && $pagenow != 'post-new.php' ) {
+		if ( $pagenow !== 'post.php' && $pagenow !== 'post-new.php' ) {
 			wp_deregister_script( 'heartbeat' );
 		}
 	}

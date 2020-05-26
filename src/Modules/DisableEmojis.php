@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class RemoveEmojis
  *
  * @package \OptimizeWP\Modules
  */
-class DisableEmojis extends Module {
+class DisableEmojis extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

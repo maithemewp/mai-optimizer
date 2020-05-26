@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class DisableSelfClosing
  *
  * @package \OptimizeWP\Modules
  */
-class RemoveSelfClosingTags extends Module {
+class RemoveSelfClosingTags extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.

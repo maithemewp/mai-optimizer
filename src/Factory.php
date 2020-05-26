@@ -1,6 +1,6 @@
 <?php
 
-namespace OptimizeWP;
+namespace MaiOptimizer;
 
 class Factory {
 
@@ -10,15 +10,15 @@ class Factory {
 	 * @since 1.0.0
 	 *
 	 * @param string $class
-	 * @param array  $args
+	 * @param mixed  $args
 	 *
 	 * @return object
 	 */
-	public function make( $class, $args = [] ) {
+	public function make( $class, $args = null ) {
 		static $objects = [];
 
 		if ( ! \array_key_exists( $class, $objects ) ) {
-			$objects[ $class ] = new $class( ...$args );
+			$objects[ $class ] = $args ? new $class( ...$args ) : new $class();
 		}
 
 		return $objects[ $class ];

@@ -1,13 +1,13 @@
 <?php
 
-namespace OptimizeWP\Modules;
+namespace MaiOptimizer\Modules;
 
 /**
  * Class RemoveCoreWidgetStyles
  *
  * @package \OptimizeWP\Modules
  */
-class RemoveWidgetInlineStyles extends Module {
+class RemoveWidgetInlineStyles extends AbstractModule {
 
 	/**
 	 * Description of expected behavior.
