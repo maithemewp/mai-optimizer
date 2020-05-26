@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.3/phpunit.xsd"
+		 bootstrap="tests/php/bootstrap.php"
+		 backupGlobals="false"
+		 colors="true"
+		 beStrictAboutCoversAnnotation="true"
+		 beStrictAboutOutputDuringTests="true"
+		 beStrictAboutTestsThatDoNotTestAnything="true"
+		 beStrictAboutTodoAnnotatedTests="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="true"
+		 convertWarningsToExceptions="true"
+		 verbose="true">
+
+	<php>
+		<env name="WP_PHPUNIT__CONFIG" value="tests/php/config.php"/>
+	</php>
+
+	<testsuites>
+		<testsuite name="unit">
+			<directory suffix=".php">./tests/php/unit/</directory>
+			<exclude>./tests/php/unit/*/*/fixtures/</exclude>
+		</testsuite>
+		<testsuite name="integration">
+			<directory suffix=".php">./tests/php/integration/</directory>
+			<exclude>./tests/php/integration/*/*/fixtures/</exclude>
+		</testsuite>
+	</testsuites>
+</phpunit>
