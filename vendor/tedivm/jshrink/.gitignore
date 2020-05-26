@@ -1,0 +1,9 @@
+/.idea
+/.php_cs.cache
+/.settings
+/.buildpath
+/.project
+/composer.lock
+/vendor
+/report
+/build
